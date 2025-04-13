@@ -20,8 +20,6 @@ Cargo.lock
 # ========================================
 /src-tauri/target/
 /src-tauri/.cargo/
-/src-tauri/Cargo.lock
-/src-tauri/tauri.conf.json
 
 # Tauri build output
 /dist/
