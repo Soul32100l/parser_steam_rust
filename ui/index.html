@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Steam Парсер</title>
+  <style>
+    body { font-family: sans-serif; padding: 2rem; background: #f9f9f9; }
+    input, button { margin: 0.5rem 0; padding: 0.5rem; font-size: 1rem; }
+    pre { background: #fff; border: 1px solid #ccc; padding: 1rem; max-height: 400px; overflow-y: auto; }
+  </style>
+</head>
+<body>
+  <h1>Steam Парсер по скидке</h1>
+  <label>Минимальная скидка (%): <input id="discount" type="number" value="50"></label><br>
+  <label>Количество страниц: <input id="pages" type="number" value="3"></label><br>
+  <button id="start">Начать парсинг</button>
+  <pre id="output">Ожидание запуска...</pre>
+
+  <script>
+    window.addEventListener("DOMContentLoaded", () => {
+      const output = document.getElementById("output");
+
+      const waitForTauri = setInterval(() => {
+        if (window.__TAURI__?.core?.invoke) {
+          clearInterval(waitForTauri);
+
+          const { invoke } = window.__TAURI__.core;
+
+          document.getElementById("start").addEventListener("click", async () => {
+            const discount = parseInt(document.getElementById("discount").value);
+            const pages = parseInt(document.getElementById("pages").value);
+
+            output.textContent = "Парсинг... Пожалуйста, подождите.";
+
+            try {
+              const result = await invoke("parse_steam", {
+                discountFilter: discount,
+                maxPages: pages
+              });
+
+              output.textContent = result.join('\n');
+            } catch (err) {
+              output.textContent = "Ошибка: " + err;
+            }
+          });
+        }
+      }, 100); // Проверяем каждые 100мс
+    });
+  </script>
+</body>
+</html>
