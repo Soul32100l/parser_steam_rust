@@ -16,7 +16,7 @@
 
 ## 📸 Скриншоты
 
-> ![Главный экран](https://github.com/Soul32100l/parser_steam_rust/tree/main/screenshot/screenshot.png)
+![Главный экран](screenshot/screenshot.png)
 
 ---
 
